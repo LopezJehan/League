@@ -1,10 +1,4 @@
-library(shiny)
-library(shinydashboard)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(plotly)
-library(shiny)
+library(League)
 
 ##### Original data #####
 all_data <- as.data.frame(read.csv("data/2021_data.csv"))

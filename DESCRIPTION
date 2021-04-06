@@ -4,15 +4,23 @@ Version: 0.1
 Authors@R: person("Jehan", "Lopez", email = "jiwan33@hotmail.fr",
                   role = c("aut", "cre"))
 Description: Shiny app for LOL
-Depends: R (>= 3.1.0)
-Imports:
+Depends: 
+  R (>= 3.1.0),
   shiny,
   shinydashboard,
+  shinyWidgets,
   dplyr,
   tidyr,
   ggplot2,
-  plotly,
-  shiny
+  plotly
+Imports:
+  shiny,
+  shinydashboard,
+  shinyWidgets,
+  dplyr,
+  tidyr,
+  ggplot2,
+  plotly
 License: What license is it under?
 LazyData: true
 RoxygenNote: 7.1.1
