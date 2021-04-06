@@ -1,0 +1,18 @@
+Package: League
+Title: Shiny app for LOL
+Version: 0.1
+Authors@R: person("Jehan", "Lopez", email = "jiwan33@hotmail.fr",
+                  role = c("aut", "cre"))
+Description: Shiny app for LOL
+Depends: R (>= 3.1.0)
+Imports:
+  shiny,
+  shinydashboard,
+  dplyr,
+  tidyr,
+  ggplot2,
+  plotly,
+  shiny
+License: What license is it under?
+LazyData: true
+RoxygenNote: 7.1.1
