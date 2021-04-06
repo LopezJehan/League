@@ -1,0 +1,24 @@
+{
+    "id": "3932934F",
+    "path": "~/League of Legends/League2021/inst/shiny/server/LPL.R",
+    "project_path": "inst/shiny/server/LPL.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1617659664791.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "cursorPosition": "53,64",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1617659694,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1617659694812,
+    "read_only": false,
+    "read_only_alternatives": []
+}

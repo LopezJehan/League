@@ -1,0 +1,24 @@
+{
+    "id": "489A5768",
+    "path": "~/League of Legends/League2021/inst/shiny/global.R",
+    "project_path": "inst/shiny/global.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1611608030635.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "cursorPosition": "2,14",
+        "scrollLine": "0"
+    },
+    "folds": "12|16|48|0|\n",
+    "lastKnownWriteTime": 1617616042,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1617616042018,
+    "read_only": false,
+    "read_only_alternatives": []
+}
