@@ -25,6 +25,9 @@ body <- dashboardBody(
     ),
     tabItem(tabName = "LEC_team",
             source(file.path("ui", "LEC/LEC_team.R"), local = TRUE)$value
+    ),
+    tabItem(tabName = "LEC_player",
+            source(file.path("ui", "LEC/LEC_player.R"), local = TRUE)$value
     )
   )
 )
