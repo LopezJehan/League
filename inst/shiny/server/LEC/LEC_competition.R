@@ -38,7 +38,7 @@ output$LEC_teams <- renderValueBox({
 
 ##### Second Box #####
 output$LEC_team <- renderUI({
-  shinyWidgets::pickerInput("LEC_team", "Team",
+  shinyWidgets::pickerInput("LEC_team", "Choose a team",
                             choices = sort(unique(LEC_filt_event()$team)),
                             choicesOpt = list(content =  
                                                 lapply(sort(unique(LEC_filt_event()$team)), FUN = function(team) {
@@ -87,7 +87,7 @@ LEC_players <- reactive({
 })
 
 output$LEC_player <- renderUI({
-  shinyWidgets::pickerInput("LEC_player", "Player", choices = LEC_players(),
+  shinyWidgets::pickerInput("LEC_player", "Choose a player", choices = LEC_players(),
                             choicesOpt = list(content =  
                                                 lapply(LEC_players(), FUN = function(player) {
                                                   HTML(paste(

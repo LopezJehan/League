@@ -10,7 +10,7 @@ tabItem(tabName = "LEC",
                    #   "LEC_event", "Competitions",
                    #   choices = sort(unique(data_LEC$event))
                    # )
-                   shinyWidgets::pickerInput("LEC_event", "Competitions",
+                   shinyWidgets::pickerInput("LEC_event", "Choose competitions",
                                              choices = sort(unique(data_LEC$event)),
                                              selected = sort(unique(data_LEC$event)),
                                              multiple = TRUE,
