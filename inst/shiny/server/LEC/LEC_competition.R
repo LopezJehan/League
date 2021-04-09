@@ -71,7 +71,7 @@ output$LEC_competition_team_graph <- renderAmCharts({
     #          type = 'column', valueField = 'kda',
     #          fillAlphas = 1, lineAlpha = 0,
     #          labelText = "[[value]]"),
-    addGraph(balloonText = '<b>[[category]]: [[value]]</b>',
+    addGraph(balloonText = '<b>[[category]]: [[value]]</b>\nGames: [[games]]',
              type = 'column', valueField = 'kda',
              fillAlphas = 1, lineAlpha = 0,
              fillColorsField = 'color',
@@ -90,7 +90,7 @@ output$LEC_competition_player_graph <- renderAmCharts({
   pipeR::pipeline(
     amSerialChart(categoryField = 'player'),
     setDataProvider(temp),
-    addGraph(balloonText = '<b>[[category]]: [[value]]</b>',
+    addGraph(balloonText = '<b>[[category]]: [[value]]</b>\nGames: [[games]]',
              type = 'column', valueField = 'kda',
              fillAlphas = 1, lineAlpha = 0,
              fillColorsField = 'color',
