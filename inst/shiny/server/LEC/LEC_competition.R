@@ -20,7 +20,9 @@ flags_LEC <- data.frame(team = sort(unique(data_LEC$team)),
                         color = c("#e51c20", "#000000", "#014a9c",
                                   "#ff5800", "#f52c18", "#c39233",
                                   "#a81e31", "#00253d", "#cccccc",
-                                  "#f9e300"))
+                                  "#f9e300"),
+                        team_simplified = c("AST", "XL", "S04", "FNC", "G2",
+                                            "MAD", "MSF", "RGE", "SK", "VIT"))
 
 ##### First Box #####
 output$LEC_games <- renderValueBox({
@@ -90,7 +92,7 @@ output$LEC_competition_player_graph <- renderAmCharts({
   pipeR::pipeline(
     amSerialChart(categoryField = 'player'),
     setDataProvider(temp),
-    addGraph(balloonText = '<b>[[category]]: [[value]]</b>\nGames: [[games]]',
+    addGraph(balloonText = paste0('<b>[[team_simplified]] [[category]]: [[value]]</b>\nGames: [[games]]'),
              type = 'column', valueField = 'kda',
              fillAlphas = 1, lineAlpha = 0,
              fillColorsField = 'color',
