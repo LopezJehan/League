@@ -6,10 +6,6 @@ tabItem(tabName = "LEC_competition",
             width = 12,
             solidHeader = TRUE,
             column(width = 6,
-                   # shinyWidgets::checkboxGroupButtons(
-                   #   "LEC_event", "Competitions",
-                   #   choices = sort(unique(data_LEC$event))
-                   # )
                    shinyWidgets::pickerInput("LEC_event", "Choose competitions",
                                              choices = sort(unique(data_LEC$event)),
                                              selected = sort(unique(data_LEC$event)),
@@ -31,6 +27,24 @@ tabItem(tabName = "LEC_competition",
             ),
             column(width = 3,
                    valueBoxOutput("LEC_teams", width = 12)
+            )
+          ),
+          box(
+            title = "Team comparison",
+            status = "primary", 
+            width = 12,
+            solidHeader = TRUE,
+            column(width = 12,
+                   amChartsOutput("LEC_competition_team_graph")
+            )
+          ),
+          box(
+            title = "Player comparison",
+            status = "primary", 
+            width = 12,
+            solidHeader = TRUE,
+            column(width = 12,
+                   amChartsOutput("LEC_competition_player_graph")
             )
           )
         )
