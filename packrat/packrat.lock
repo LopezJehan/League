@@ -142,6 +142,12 @@ Source: CRAN
 Version: 1.0.1
 Hash: d272cd728e4095b3964181b44763f46c
 
+Package: fresh
+Source: CRAN
+Version: 0.2.0
+Hash: acc4f9f765a1f0d8656f32459da43167
+Requires: htmltools, sass, rstudioapi, shiny
+
 Package: fs
 Source: CRAN
 Version: 1.5.0
@@ -156,7 +162,7 @@ Package: ggplot2
 Source: CRAN
 Version: 3.3.3
 Hash: fcae8a1c452b7bf7e5b11d1d438c825e
-Requires: digest, glue, rlang, tibble, gtable, isoband, scales, withr
+Requires: digest, glue, rlang, tibble, withr, gtable, isoband, scales
 
 Package: glue
 Source: CRAN
@@ -295,7 +301,7 @@ Package: pkgbuild
 Source: CRAN
 Version: 1.1.0
 Hash: 3627518e6ba9330b1318a1b8cd213951
-Requires: R6, callr, cli, crayon, desc, rprojroot, prettyunits, withr
+Requires: R6, callr, cli, crayon, desc, rprojroot, withr, prettyunits
 
 Package: pkgconfig
 Source: CRAN
@@ -306,8 +312,8 @@ Package: pkgload
 Source: CRAN
 Version: 1.1.0
 Hash: a65ac8a100a65cff8e5e4a122d2a51af
-Requires: cli, crayon, desc, rlang, rprojroot, pkgbuild, rstudioapi,
-    withr
+Requires: cli, crayon, desc, rlang, rprojroot, rstudioapi, withr,
+    pkgbuild
 
 Package: plotly
 Source: CRAN
@@ -396,7 +402,7 @@ Source: CRAN
 Version: 1.5.0
 Hash: c6e7eb15d6cd1f0f21b6afe871d6e106
 Requires: R6, commonmark, crayon, digest, fastmap, glue, htmltools,
-    httpuv, jsonlite, later, mime, promises, rlang, withr, sourcetools,
+    jsonlite, rlang, httpuv, later, mime, promises, sourcetools, withr,
     xtable
 
 Package: shinyWidgets
@@ -410,6 +416,12 @@ Source: CRAN
 Version: 0.7.1
 Hash: 9ff3e3d1aa83d9ae9b75c6f31e982aa6
 Requires: htmltools, promises, shiny
+
+Package: shinydashboardPlus
+Source: CRAN
+Version: 2.0.0
+Hash: b20e2efc0809240113f108cb40d860a4
+Requires: fresh, htmltools, lifecycle, shiny, shinydashboard, waiter
 
 Package: sourcetools
 Source: CRAN
@@ -437,7 +449,7 @@ Source: CRAN
 Version: 2.3.2
 Hash: 5a3a20ddc31b2aa228dab6d29bd43948
 Requires: R6, cli, crayon, digest, ellipsis, evaluate, magrittr, rlang,
-    pkgload, praise, withr
+    withr, pkgload, praise
 
 Package: tibble
 Source: CRAN
@@ -474,6 +486,12 @@ Package: viridisLite
 Source: CRAN
 Version: 0.3.0
 Hash: 78bb072c4f9e729a283d4c40ec93f9c6
+
+Package: waiter
+Source: CRAN
+Version: 0.2.0
+Hash: 7db284be2e07f8b4991559714dcfd09a
+Requires: R6, crayon, htmltools, magrittr, shiny
 
 Package: withr
 Source: CRAN
