@@ -51,7 +51,10 @@ stats_LEC <- reactive({
       deaths = sum(deaths),
       assists = sum(assists),
       games = n()) %>% 
-    mutate(kda = calculate_kda(kills, deaths, assists))
+    mutate(kda = calculate_kda(kills, deaths, assists),
+           kills_per_games = round(kills/games, 2),
+           assists_per_games = round(assists/games, 2),
+           deaths_per_games = round(deaths/games, 2))
 })
 
 stats_LEC_teams <- reactive({
@@ -63,8 +66,15 @@ stats_LEC_players <- reactive({
 })
 
 output$LEC_competition_team_graph <- renderAmCharts({
-  temp <<- merge(stats_LEC_teams(), flags_LEC) %>% 
-    arrange(-kda)
+  stat <- paste(unlist(strsplit(tolower(input$LEC_competition_team_graph_choice), " ")), collapse = "_")
+  
+  if(stat %in% c("deaths", "deaths_per_games")){
+    temp <<- merge(stats_LEC_teams(), flags_LEC) %>% 
+      arrange(!!as.symbol(stat))
+  } else {
+    temp <<- merge(stats_LEC_teams(), flags_LEC) %>% 
+      arrange(-!!as.symbol(stat))
+  }
   
   pipeR::pipeline(
     amSerialChart(categoryField = 'team'),
@@ -74,12 +84,12 @@ output$LEC_competition_team_graph <- renderAmCharts({
     #          fillAlphas = 1, lineAlpha = 0,
     #          labelText = "[[value]]"),
     addGraph(balloonText = '<b>[[category]]: [[value]]</b>\nGames: [[games]]',
-             type = 'column', valueField = 'kda',
+             type = 'column', valueField = stat,
              fillAlphas = 1, lineAlpha = 0,
              fillColorsField = 'color',
              labelText = "[[value]]"),
     addValueAxis(minimum = 0),
-    addTitle(text = 'KDA Ranking'),
+    addTitle(text = paste(input$LEC_competition_team_graph_choice, 'Ranking')),
     setExport(enabled = TRUE)
   )
   # amBarplot(x = "team", y = "kda", data = temp)

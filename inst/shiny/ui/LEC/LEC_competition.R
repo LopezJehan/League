@@ -36,6 +36,16 @@ tabItem(tabName = "LEC_competition",
             solidHeader = TRUE,
             column(width = 12,
                    amChartsOutput("LEC_competition_team_graph")
+            ),
+            sidebar = boxSidebar(
+              id = "LEC_competition_team_graph_sidebar",
+              width = 25,
+              pickerInput("LEC_competition_team_graph_choice",
+                          "Choose a statistic",
+                          choices = c("KDA", "Kills", "Assists", "Deaths",
+                                      "Kills per games", "Assists per games",
+                                      "Deaths per games"),
+                          selected = "KDA")
             )
           ),
           box(
