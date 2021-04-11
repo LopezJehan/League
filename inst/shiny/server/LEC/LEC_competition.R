@@ -65,6 +65,8 @@ stats_LEC_players <- reactive({
   stats_LEC()[stats_LEC()$player != "",]
 })
 
+## Team graph
+
 output$LEC_competition_team_graph_slider <- renderUI({
   sliderInput("LEC_competition_team_graph_slider", "Number of teams displayed",
               value = nrow(stats_LEC_teams()),
@@ -112,20 +114,49 @@ output$LEC_competition_team_graph <- renderAmCharts({
   # amBarplot(x = "team", y = "kda", data = temp)
 })
 
+## Player graph
+
+output$LEC_competition_player_graph_slider <- renderUI({
+  sliderInput("LEC_competition_player_graph_slider", "Number of teams displayed",
+              value = 10,
+              min = min(nrow(stats_LEC_players()), 3),
+              max = nrow(stats_LEC_players()),
+              step = 1)
+})
+
 output$LEC_competition_player_graph <- renderAmCharts({
-  temp <- merge(stats_LEC_players(), flags_LEC) %>% 
-    arrange(-kda)
+  stat <- paste(unlist(strsplit(tolower(input$LEC_competition_player_graph_choice), " ")), collapse = "_")
+  
+  if(stat %in% c("deaths", "deaths_per_games")){
+    temp <- merge(stats_LEC_players(), flags_LEC) %>% 
+      arrange(!!as.symbol(stat)) %>% 
+      mutate(ranking = rank(!!as.symbol(stat), ties.method = "min"))
+  } else {
+    temp <- merge(stats_LEC_players(), flags_LEC) %>% 
+      arrange(-!!as.symbol(stat)) %>% 
+      mutate(ranking = rank(-!!as.symbol(stat), ties.method = "min"))
+  }
+  
+  temp <- temp %>% slice(1:input$LEC_competition_player_graph_slider)
+  
+  if(input$LEC_competition_player_graph_slider == nrow(stats_LEC_players())){
+    title <- paste(input$LEC_competition_player_graph_choice, 'Ranking')
+  } else {
+    title <- paste(input$LEC_competition_player_graph_choice, 'Ranking - Top',
+                   input$LEC_competition_player_graph_slider)
+  }
   
   pipeR::pipeline(
     amSerialChart(categoryField = 'player'),
     setDataProvider(temp),
-    addGraph(balloonText = paste0('<b>[[team_simplified]] [[category]]: [[value]]</b>\nGames: [[games]]'),
-             type = 'column', valueField = 'kda',
+    addGraph(balloonText = paste0('<b>[[ranking]]. [[team_simplified]] [[category]]: [[value]]</b>\nGames: [[games]]'),
+             type = 'column', valueField = stat,
              fillAlphas = 1, lineAlpha = 0,
              fillColorsField = 'color',
              labelText = "[[value]]"),
     addValueAxis(minimum = 0),
-    addTitle(text = 'KDA Ranking'),
+    setCategoryAxis(labelRotation = ifelse(nrow(temp) > 20, 45, 0)),
+    addTitle(text = title),
     setExport(enabled = TRUE)
   )
   
