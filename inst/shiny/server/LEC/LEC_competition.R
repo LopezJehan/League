@@ -80,10 +80,12 @@ output$LEC_competition_team_graph <- renderAmCharts({
   
   if(stat %in% c("deaths", "deaths_per_games")){
     temp <- merge(stats_LEC_teams(), flags_LEC) %>% 
-      arrange(!!as.symbol(stat))
+      arrange(!!as.symbol(stat)) %>% 
+      mutate(ranking = rank(!!as.symbol(stat), ties.method = "min"))
   } else {
     temp <- merge(stats_LEC_teams(), flags_LEC) %>% 
-      arrange(-!!as.symbol(stat))
+      arrange(-!!as.symbol(stat)) %>% 
+      mutate(ranking = rank(-!!as.symbol(stat), ties.method = "min"))
   }
   
   temp <- temp %>% slice(1:input$LEC_competition_team_graph_slider)
@@ -102,7 +104,7 @@ output$LEC_competition_team_graph <- renderAmCharts({
     #          type = 'column', valueField = 'kda',
     #          fillAlphas = 1, lineAlpha = 0,
     #          labelText = "[[value]]"),
-    addGraph(balloonText = '<b>[[category]]: [[value]]</b>\nGames: [[games]]',
+    addGraph(balloonText = '<b>[[ranking]]. [[category]]: [[value]]</b>\nGames: [[games]]',
              type = 'column', valueField = stat,
              fillAlphas = 1, lineAlpha = 0,
              fillColorsField = 'color',
@@ -118,7 +120,7 @@ output$LEC_competition_team_graph <- renderAmCharts({
 
 output$LEC_competition_player_graph_slider <- renderUI({
   sliderInput("LEC_competition_player_graph_slider", "Number of teams displayed",
-              value = 10,
+              value = min(20, nrow(stats_LEC_players())),
               min = min(nrow(stats_LEC_players()), 3),
               max = nrow(stats_LEC_players()),
               step = 1)
