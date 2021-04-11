@@ -65,15 +65,32 @@ stats_LEC_players <- reactive({
   stats_LEC()[stats_LEC()$player != "",]
 })
 
+output$LEC_competition_team_graph_slider <- renderUI({
+  sliderInput("LEC_competition_team_graph_slider", "Number of teams displayed",
+              value = nrow(stats_LEC_teams()),
+              min = min(nrow(stats_LEC_teams()), 3),
+              max = nrow(stats_LEC_teams()),
+              step = 1)
+})
+
 output$LEC_competition_team_graph <- renderAmCharts({
   stat <- paste(unlist(strsplit(tolower(input$LEC_competition_team_graph_choice), " ")), collapse = "_")
   
   if(stat %in% c("deaths", "deaths_per_games")){
-    temp <<- merge(stats_LEC_teams(), flags_LEC) %>% 
+    temp <- merge(stats_LEC_teams(), flags_LEC) %>% 
       arrange(!!as.symbol(stat))
   } else {
-    temp <<- merge(stats_LEC_teams(), flags_LEC) %>% 
+    temp <- merge(stats_LEC_teams(), flags_LEC) %>% 
       arrange(-!!as.symbol(stat))
+  }
+  
+  temp <- temp %>% slice(1:input$LEC_competition_team_graph_slider)
+  
+  if(input$LEC_competition_team_graph_slider == nrow(stats_LEC_teams())){
+    title <- paste(input$LEC_competition_team_graph_choice, 'Ranking')
+  } else {
+    title <- paste(input$LEC_competition_team_graph_choice, 'Ranking - Top',
+                   input$LEC_competition_team_graph_slider)
   }
   
   pipeR::pipeline(
@@ -89,7 +106,7 @@ output$LEC_competition_team_graph <- renderAmCharts({
              fillColorsField = 'color',
              labelText = "[[value]]"),
     addValueAxis(minimum = 0),
-    addTitle(text = paste(input$LEC_competition_team_graph_choice, 'Ranking')),
+    addTitle(text = title),
     setExport(enabled = TRUE)
   )
   # amBarplot(x = "team", y = "kda", data = temp)

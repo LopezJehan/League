@@ -40,12 +40,14 @@ tabItem(tabName = "LEC_competition",
             sidebar = boxSidebar(
               id = "LEC_competition_team_graph_sidebar",
               width = 25,
+              h4("Graphic Options"),
               pickerInput("LEC_competition_team_graph_choice",
                           "Choose a statistic",
                           choices = c("KDA", "Kills", "Assists", "Deaths",
                                       "Kills per games", "Assists per games",
                                       "Deaths per games"),
-                          selected = "KDA")
+                          selected = "KDA"),
+              uiOutput("LEC_competition_team_graph_slider")
             )
           ),
           box(
