@@ -41,3 +41,55 @@ output$LEC_team_winrate <- renderValueBox({
     color = "fuchsia"
   )
 })
+
+## Player graph
+stats_LEC_players_team <- reactive({
+  stats_LEC_players()[stats_LEC_players()$team == input$LEC_team,]
+})
+
+output$LEC_team_player_graph_slider <- renderUI({
+  sliderInput("LEC_team_player_graph_slider", "Number of players displayed",
+              value = nrow(stats_LEC_players_team()),
+              min = min(nrow(stats_LEC_players_team()), 3),
+              max = nrow(stats_LEC_players_team()),
+              step = 1)
+})
+
+output$LEC_team_player_graph <- renderAmCharts({
+  stat <- paste(unlist(strsplit(tolower(input$LEC_team_player_graph_choice), " ")), collapse = "_")
+  
+  if(stat %in% c("deaths", "deaths_per_games")){
+    temp <- merge(stats_LEC_players_team(), flags_LEC) %>% 
+      arrange(!!as.symbol(stat)) %>% 
+      mutate(ranking = rank(!!as.symbol(stat), ties.method = "min"))
+  } else {
+    temp <- merge(stats_LEC_players_team(), flags_LEC) %>% 
+      arrange(-!!as.symbol(stat)) %>% 
+      mutate(ranking = rank(-!!as.symbol(stat), ties.method = "min"))
+  }
+  
+  temp <- temp %>% slice(1:input$LEC_team_player_graph_slider)
+  
+  if(input$LEC_team_player_graph_slider == nrow(stats_LEC_players_team())){
+    title <- paste(input$LEC_team_player_graph_choice, 'Ranking')
+  } else {
+    title <- paste(input$LEC_team_player_graph_choice, 'Ranking - Top',
+                   input$LEC_team_player_graph_slider)
+  }
+  
+  pipeR::pipeline(
+    amSerialChart(categoryField = 'player'),
+    setDataProvider(temp),
+    addGraph(balloonText = paste0('<b>[[ranking]]. [[team_simplified]] [[category]]: [[value]]</b>\nGames: [[games]]'),
+             type = 'column', valueField = stat,
+             fillAlphas = 1, lineAlpha = 0,
+             fillColorsField = 'color',
+             labelText = "[[value]]"),
+    addValueAxis(minimum = 0),
+    setCategoryAxis(labelRotation = ifelse(nrow(temp) > 20, 45, 0)),
+    addTitle(text = title),
+    setExport(enabled = TRUE)
+  )
+  
+  # amBarplot(x = "player", y = "kda", data = temp)
+})

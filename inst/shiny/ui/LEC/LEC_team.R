@@ -17,7 +17,27 @@ tabItem(tabName = "LEC_team",
             column(width = 3,
                    valueBoxOutput("LEC_team_winrate", width = 12)
             )
-            
+          ),
+          box(
+            title = "Player comparison",
+            status = "primary", 
+            width = 12,
+            solidHeader = TRUE,
+            column(width = 12,
+                   amChartsOutput("LEC_team_player_graph")
+            ),
+            sidebar = boxSidebar(
+              id = "LEC_team_player_graph_sidebar",
+              width = 25,
+              h4("Graphic Options"),
+              pickerInput("LEC_team_player_graph_choice",
+                          "Choose a statistic",
+                          choices = c("KDA", "Kills", "Assists", "Deaths",
+                                      "Kills per games", "Assists per games",
+                                      "Deaths per games"),
+                          selected = "KDA"),
+              uiOutput("LEC_team_player_graph_slider")
+            )
           )
         )
 )
