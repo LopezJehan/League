@@ -119,7 +119,7 @@ output$LEC_competition_team_graph <- renderAmCharts({
 ## Player graph
 
 output$LEC_competition_player_graph_slider <- renderUI({
-  sliderInput("LEC_competition_player_graph_slider", "Number of teams displayed",
+  sliderInput("LEC_competition_player_graph_slider", "Number of players displayed",
               value = min(20, nrow(stats_LEC_players())),
               min = min(nrow(stats_LEC_players()), 3),
               max = nrow(stats_LEC_players()),
