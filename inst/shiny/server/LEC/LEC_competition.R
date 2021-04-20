@@ -98,7 +98,7 @@ output$LEC_competition_team_graph <- renderAmCharts({
   }
   
   pipeR::pipeline(
-    amSerialChart(categoryField = 'team'),
+    amSerialChart(categoryField = 'team', creditsPosition = "top-right"),
     setDataProvider(temp),
     # addGraph(balloonText = '<img src=[[img]]></img><b>[[category]]: [[value]]</b>',
     #          type = 'column', valueField = 'kda',
@@ -149,7 +149,7 @@ output$LEC_competition_player_graph <- renderAmCharts({
   }
   
   pipeR::pipeline(
-    amSerialChart(categoryField = 'player'),
+    amSerialChart(categoryField = 'player', creditsPosition = "top-right"),
     setDataProvider(temp),
     addGraph(balloonText = paste0('<b>[[ranking]]. [[team_simplified]] [[category]]: [[value]]</b>\nGames: [[games]]'),
              type = 'column', valueField = stat,
