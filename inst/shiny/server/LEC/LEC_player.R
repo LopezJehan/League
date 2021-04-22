@@ -48,7 +48,8 @@ output$LEC_player_winrate <- renderValueBox({
 ##### Forth Box #####
 output$LEC_advanced <- renderUI({
   box(
-    title = paste0("Advanced Stats for ", input$LEC_team, " - ", input$LEC_player),
+    title = paste0("Advanced Stats for ", input$LEC_team, " - ", input$LEC_player, 
+                   ' (', paste(input$LEC_event, collapse = ", "), ")"),
     status = "primary", 
     width = 12,
     solidHeader = TRUE,
@@ -64,6 +65,8 @@ output$LEC_advanced <- renderUI({
     column(width = 3,
            valueBoxOutput("LEC_player_kda", width = 12)
     ),
+    column(width = 12,
+           HTML("<h3><center> Filter by Champions: </center></h3>")),
     column(width = 3,
            uiOutput("LEC_champions")
     ),
