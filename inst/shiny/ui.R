@@ -2,6 +2,7 @@ header <- dashboardHeader(title = "League Of Legends")
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
+    menuItem("Home", tabName = "Home", icon = icon("home")), 
     menuItem("LCK", tabName = "LCK", icon = icon("globe-asia")),
     menuItem("LPL", tabName = "LPL", icon = icon("globe-asia")),
     menuItem("LEC", tabName = "LEC", icon = icon("globe-europe"),
@@ -13,6 +14,9 @@ sidebar <- dashboardSidebar(
 
 body <- dashboardBody(
   tabItems(
+    tabItem(tabName = "Home",
+            source(file.path("ui", "Home.R"), local = TRUE)$value
+    ),
     tabItem(tabName = "LCK",
             source(file.path("ui", "LCK.R"), local = TRUE)$value
     ),
