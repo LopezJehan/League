@@ -18,6 +18,10 @@ output$LEC_player <- renderUI({
 # Data filtered by player
 LEC_filt_player <- reactive(LEC_filt_team() %>% filter(player %in% input$LEC_player))
 
+stats_LEC_players_team_one <- reactive({
+  stats_LEC_players_team() %>% filter(player == input$LEC_player)
+})
+
 output$LEC_player_games <- renderValueBox({
   valueBox(
     nrow(LEC_filt_player()),
@@ -49,7 +53,7 @@ output$LEC_player_winrate <- renderValueBox({
 output$LEC_advanced <- renderUI({
   box(
     title = paste0("Advanced Stats for ", input$LEC_team, " - ", input$LEC_player, 
-                   ' (', paste(input$LEC_event, collapse = ", "), ")"),
+                   ' (', unique(stats_LEC_players_team_one()$events), ")"),
     status = "primary", 
     width = 12,
     solidHeader = TRUE,
