@@ -44,7 +44,11 @@ output$LEC_team_winrate <- renderValueBox({
 
 ## Player graph
 stats_LEC_players_team <- reactive({
-  stats_LEC_players()[stats_LEC_players()$team == input$LEC_team,]
+  stats_LEC_players() %>% filter(team == input$LEC_team)
+})
+
+stats_LEC_team_one <- reactive({
+  stats_LEC_teams() %>% filter(team == input$LEC_team)
 })
 
 output$LEC_team_player_graph_slider <- renderUI({
@@ -71,10 +75,12 @@ output$LEC_team_player_graph <- renderAmCharts({
   temp <- temp %>% slice(1:input$LEC_team_player_graph_slider)
   
   if(input$LEC_team_player_graph_slider == nrow(stats_LEC_players_team())){
-    title <- paste(input$LEC_team_player_graph_choice, 'Ranking')
+    title <- paste0(input$LEC_team_player_graph_choice, ' Ranking (',
+                    stats_LEC_team_one()$events, ')')
   } else {
-    title <- paste(input$LEC_team_player_graph_choice, 'Ranking - Top',
-                   input$LEC_team_player_graph_slider)
+    title <- paste0(input$LEC_team_player_graph_choice, ' Ranking - Top ',
+                    input$LEC_team_player_graph_slider, 
+                    ' (', stats_LEC_team_one()$events, ")")
   }
   
   pipeR::pipeline(
