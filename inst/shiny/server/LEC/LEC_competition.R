@@ -50,7 +50,8 @@ stats_LEC <- reactive({
       kills = sum(kills),
       deaths = sum(deaths),
       assists = sum(assists),
-      games = n()) %>% 
+      games = n(),
+      events = paste(unique(event), collapse = ", ")) %>% 
     mutate(kda = calculate_kda(kills, deaths, assists),
            kills_per_games = round(kills/games, 2),
            assists_per_games = round(assists/games, 2),
@@ -91,10 +92,12 @@ output$LEC_competition_team_graph <- renderAmCharts({
   temp <- temp %>% slice(1:input$LEC_competition_team_graph_slider)
   
   if(input$LEC_competition_team_graph_slider == nrow(stats_LEC_teams())){
-    title <- paste(input$LEC_competition_team_graph_choice, 'Ranking')
+    title <- paste0(input$LEC_competition_team_graph_choice, ' Ranking (',
+                    paste0(input$LEC_event, collapse = ", "), ")")
   } else {
-    title <- paste(input$LEC_competition_team_graph_choice, 'Ranking - Top',
-                   input$LEC_competition_team_graph_slider)
+    title <- paste0(input$LEC_competition_team_graph_choice, ' Ranking - Top ',
+                    input$LEC_competition_team_graph_slider, ' (',
+                    paste0(input$LEC_event, collapse = ", "), ")")
   }
   
   pipeR::pipeline(
@@ -142,10 +145,12 @@ output$LEC_competition_player_graph <- renderAmCharts({
   temp <- temp %>% slice(1:input$LEC_competition_player_graph_slider)
   
   if(input$LEC_competition_player_graph_slider == nrow(stats_LEC_players())){
-    title <- paste(input$LEC_competition_player_graph_choice, 'Ranking')
+    title <- paste0(input$LEC_competition_player_graph_choice, ' Ranking (',
+                   paste0(input$LEC_event, collapse = ", "), ")")
   } else {
-    title <- paste(input$LEC_competition_player_graph_choice, 'Ranking - Top',
-                   input$LEC_competition_player_graph_slider)
+    title <- paste0(input$LEC_competition_player_graph_choice, ' Ranking - Top ',
+                   input$LEC_competition_player_graph_slider,' (',
+                   paste0(input$LEC_event, collapse = ", "), ")")
   }
   
   pipeR::pipeline(
