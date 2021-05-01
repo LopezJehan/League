@@ -54,12 +54,12 @@ stats_LEC <- reactive({
            deaths_per_games = round(deaths/games, 2))
 })
 
-# Team stats
+# Teams stats
 stats_LEC_teams <- reactive({
   stats_LEC()[stats_LEC()$player == "",]
 })
 
-# Player stats
+# Players stats
 stats_LEC_players <- reactive({
   stats_LEC()[stats_LEC()$player != "",]
 })
@@ -144,10 +144,10 @@ output$LEC_competition_player_graph <- renderAmCharts({
       mutate(ranking = rank(-!!as.symbol(stat), ties.method = "min"))
   }
   
-  # Keeping n first teams
+  # Keeping n first players
   temp <- temp %>% slice(1:input$LEC_competition_player_graph_slider)
   
-  # Changing title in function of number of teams
+  # Changing title in function of number of players
   if(input$LEC_competition_player_graph_slider == nrow(stats_LEC_players())){
     title <- paste0(input$LEC_competition_player_graph_choice, ' Ranking (',
                     paste0(input$LEC_event, collapse = ", "), ")")

@@ -1,4 +1,6 @@
 ##### Third Box #####
+
+# Player picker input
 LEC_players <- reactive({
   temp <- unique(LEC_filt_team()$player)
   return(temp[temp != ""])
@@ -22,6 +24,8 @@ stats_LEC_players_team_one <- reactive({
   stats_LEC_players_team() %>% filter(player == input$LEC_player)
 })
 
+##### First value boxes #####
+# Nb of games
 output$LEC_player_games <- renderValueBox({
   valueBox(
     nrow(LEC_filt_player()),
@@ -30,6 +34,7 @@ output$LEC_player_games <- renderValueBox({
   )
 })
 
+# Nb of wins
 output$LEC_player_wins <- renderValueBox({
   valueBox(
     paste0(sum(LEC_filt_player()$result), "-",
@@ -40,6 +45,7 @@ output$LEC_player_wins <- renderValueBox({
   )
 })
 
+# Winrate
 output$LEC_player_winrate <- renderValueBox({
   valueBox(
     paste0(round(100*sum(LEC_filt_player()$result)/nrow(LEC_filt_player()),1),"%"),
@@ -49,7 +55,7 @@ output$LEC_player_winrate <- renderValueBox({
   )
 })
 
-##### Forth Box #####
+##### UI - Box for advanced stats #####
 output$LEC_advanced <- renderUI({
   box(
     title = paste0("Advanced Stats for ", input$LEC_team, " - ", input$LEC_player, 
@@ -92,13 +98,11 @@ output$LEC_advanced <- renderUI({
     column(width = 3,
            valueBoxOutput("LEC_champion_dth", width = 12)
     )
-    # ,
-    # column(width = 12,
-    #        plotOutput("radar", width = "50%")
-    # )
   )
 })
 
+##### SERVER - Box for advanced stats #####
+# Datatable for champs played by player ordered by number of games
 LEC_champs_played <- reactive({
   df <- as.data.frame(table(LEC_filt_player()$champion)) %>% 
     rename(Champion = Var1,
@@ -107,6 +111,7 @@ LEC_champs_played <- reactive({
   return(df[order(-df$Number),])
 })
 
+# Nb of champions played
 output$LEC_player_champions <- renderValueBox({
   valueBox(
     nrow(LEC_champs_played()),
@@ -116,6 +121,7 @@ output$LEC_player_champions <- renderValueBox({
   )
 })
 
+# Nb of wins, winrate for player
 output$LEC_player_games_det <- renderValueBox({
   valueBox(
     paste0(nrow(LEC_filt_player())," (", sum(LEC_filt_player()$result), "-", 
@@ -127,6 +133,7 @@ output$LEC_player_games_det <- renderValueBox({
   )
 })
 
+# Player K-D-A
 output$LEC_player_k_d_a <- renderValueBox({
   valueBox(
     paste0(sum(LEC_filt_player()$kills), "-", sum(LEC_filt_player()$deaths), "-",
@@ -137,6 +144,7 @@ output$LEC_player_k_d_a <- renderValueBox({
   )
 })
 
+# Player KDA
 output$LEC_player_kda <- renderValueBox({
   valueBox(
     calculate_kda(sum(LEC_filt_player()$kills),
@@ -148,6 +156,7 @@ output$LEC_player_kda <- renderValueBox({
   )
 })
 
+# Picker input for champions played
 output$LEC_champions <- renderUI({
   shinyWidgets::pickerInput("LEC_champions", "Champion",
                             choices = LEC_champs_played()$Champion,
@@ -170,9 +179,10 @@ output$LEC_champions <- renderUI({
                             ))
 })
 
-# Data filtered by player
+# Data filtered by player and champion
 LEC_filt_champion <- reactive(LEC_filt_player() %>% filter(champion %in% input$LEC_champions))
 
+# Nb of wins, winrate for player on champion(s) selected 
 output$LEC_champion_games_det <- renderValueBox({
   valueBox(
     paste0(nrow(LEC_filt_champion())," (", sum(LEC_filt_champion()$result), "-", 
@@ -184,6 +194,7 @@ output$LEC_champion_games_det <- renderValueBox({
   )
 })
 
+# Player K-D-A on champion(s) selected
 output$LEC_champion_k_d_a <- renderValueBox({
   valueBox(
     paste0(sum(LEC_filt_champion()$kills), "-", sum(LEC_filt_champion()$deaths), "-",
@@ -194,6 +205,7 @@ output$LEC_champion_k_d_a <- renderValueBox({
   )
 })
 
+# Player KDA on champion(s) selected
 output$LEC_champion_kda <- renderValueBox({
   valueBox(
     calculate_kda(sum(LEC_filt_champion()$kills),
@@ -205,6 +217,7 @@ output$LEC_champion_kda <- renderValueBox({
   )
 })
 
+# Player Kill Participation on champion(s) selected
 output$LEC_champion_kp <- renderValueBox({
   valueBox(
     paste0(calculate_kp(sum(LEC_filt_champion()$kills),
@@ -216,6 +229,7 @@ output$LEC_champion_kp <- renderValueBox({
   )
 })
 
+# Player Kill Share on champion(s) selected
 output$LEC_champion_ks <- renderValueBox({
   valueBox(
     paste0(calculate_ks(sum(LEC_filt_champion()$kills),
@@ -226,6 +240,7 @@ output$LEC_champion_ks <- renderValueBox({
   )
 })
 
+# Player average share of team's deaths on champion(s) selected
 output$LEC_champion_dth <- renderValueBox({
   valueBox(
     paste0(calculate_ds(sum(LEC_filt_champion()$deaths),

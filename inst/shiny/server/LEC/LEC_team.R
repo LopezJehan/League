@@ -1,4 +1,6 @@
-##### Second Box #####
+##### LEC team server #####
+
+# Team picker input
 output$LEC_team <- renderUI({
   shinyWidgets::pickerInput("LEC_team", "Choose a team",
                             choices = sort(unique(LEC_filt_event()$team)),
@@ -15,6 +17,8 @@ output$LEC_team <- renderUI({
 # Data filtered by team
 LEC_filt_team <- reactive(LEC_filt_event() %>% filter(team %in% input$LEC_team))
 
+##### Box with value boxes #####
+# Nb of games
 output$LEC_team_games <- renderValueBox({
   valueBox(
     nrow(LEC_filt_team())/6,
@@ -23,6 +27,7 @@ output$LEC_team_games <- renderValueBox({
   )
 })
 
+# Nb of wins
 output$LEC_team_wins <- renderValueBox({
   valueBox(
     paste0(sum(LEC_filt_team()$result)/6, "-",
@@ -33,6 +38,7 @@ output$LEC_team_wins <- renderValueBox({
   )
 })
 
+# Winrate
 output$LEC_team_winrate <- renderValueBox({
   valueBox(
     paste0(round(100*sum(LEC_filt_team()$result)/nrow(LEC_filt_team()),1),"%"),
@@ -42,15 +48,18 @@ output$LEC_team_winrate <- renderValueBox({
   )
 })
 
-## Player graph
+# Chosen team stats for players
 stats_LEC_players_team <- reactive({
   stats_LEC_players() %>% filter(team == input$LEC_team)
 })
 
+# Chosen team stats for the team
 stats_LEC_team_one <- reactive({
   stats_LEC_teams() %>% filter(team == input$LEC_team)
 })
 
+##### Player graph from chosen team #####
+# Slider
 output$LEC_team_player_graph_slider <- renderUI({
   sliderInput("LEC_team_player_graph_slider", "Number of players displayed",
               value = nrow(stats_LEC_players_team()),
@@ -59,9 +68,12 @@ output$LEC_team_player_graph_slider <- renderUI({
               step = 1)
 })
 
+# Graph
 output$LEC_team_player_graph <- renderAmCharts({
+  # Getting stat to display
   stat <- paste(unlist(strsplit(tolower(input$LEC_team_player_graph_choice), " ")), collapse = "_")
   
+  # Sorting and adding ranking
   if(stat %in% c("deaths", "deaths_per_games")){
     temp <- merge(stats_LEC_players_team(), flags_LEC) %>% 
       arrange(!!as.symbol(stat)) %>% 
@@ -72,8 +84,10 @@ output$LEC_team_player_graph <- renderAmCharts({
       mutate(ranking = rank(-!!as.symbol(stat), ties.method = "min"))
   }
   
+  # Keeping n first players
   temp <- temp %>% slice(1:input$LEC_team_player_graph_slider)
   
+  # Changing title in function of number of players
   if(input$LEC_team_player_graph_slider == nrow(stats_LEC_players_team())){
     title <- paste0(input$LEC_team_player_graph_choice, ' Ranking (',
                     stats_LEC_team_one()$events, ')')
@@ -83,6 +97,7 @@ output$LEC_team_player_graph <- renderAmCharts({
                     ' (', stats_LEC_team_one()$events, ")")
   }
   
+  # Building graph
   pipeR::pipeline(
     amSerialChart(categoryField = 'player', creditsPosition = "top-right"),
     setDataProvider(temp),
@@ -96,6 +111,4 @@ output$LEC_team_player_graph <- renderAmCharts({
     addTitle(text = title),
     setExport(enabled = TRUE)
   )
-  
-  # amBarplot(x = "player", y = "kda", data = temp)
 })
