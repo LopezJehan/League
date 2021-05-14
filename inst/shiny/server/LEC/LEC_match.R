@@ -52,14 +52,47 @@ output$LEC_Match_picker <- renderUI(
   )
 )
 
+# Get match
+LEC_match <- reactive(buildTable(data = data_LEC,
+                                 number = as.numeric(strsplit(input$LEC_match_picker, " - ")[[1]][1])))
+
+# Column HTML
+LEC_sketch <- reactive({
+  teamA <- colnames(LEC_match()[[1]][1])
+  teamB <- colnames(LEC_match()[[1]][6])
+  
+  htmltools::withTags(table(
+    class = 'display',
+    thead(
+      tr(
+        th(
+          HTML(paste(
+            tags$img(src=flags_LEC[flags_LEC$team == teamA,]$img),
+            teamA
+          ))
+        ),
+        th(""),
+        th(""),
+        th(colnames(LEC_match()[[1]][4])),
+        th(colnames(LEC_match()[[1]][5])),
+        th(""),
+        th(""),
+        th(
+          HTML(paste(
+            teamB,
+            tags$img(src=flags_LEC[flags_LEC$team == teamB,]$img)
+          ))
+        )
+      )
+    )
+  ))
+})
+
 # Display table
 output$LEC_matches <- DT::renderDataTable({
   if(!is.null(input$LEC_match_picker)){
-    res_table <- buildTable(data = data_LEC,
-                            number = as.numeric(strsplit(input$LEC_match_picker, " - ")[[1]][1]))
-    
     DT::datatable(
-      res_table[[1]],
+      LEC_match()[[1]],
       options = list(dom = 't',
                      scrollX = TRUE,
                      ordering = FALSE,
@@ -67,9 +100,10 @@ output$LEC_matches <- DT::renderDataTable({
       rownames = FALSE,
       caption =  htmltools::tags$caption(
         style = 'caption-side: bottom; text-align: center;',
-        htmltools::strong(res_table[[2]])
+        htmltools::strong(LEC_match()[[2]])
       ),
-      escape = FALSE
+      escape = FALSE,
+      container = LEC_sketch()
     )
   }
 })
