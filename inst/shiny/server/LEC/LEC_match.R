@@ -68,7 +68,8 @@ output$LEC_matches <- DT::renderDataTable({
       caption =  htmltools::tags$caption(
         style = 'caption-side: bottom; text-align: center;',
         htmltools::strong(res_table[[2]])
-      )
+      ),
+      escape = FALSE
     )
   }
 })
