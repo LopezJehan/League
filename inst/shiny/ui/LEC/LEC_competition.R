@@ -14,7 +14,7 @@ tabItem(tabName = "LEC_competition",
                                                "actions-box" = TRUE
                                              ),
                                              choicesOpt = list(content =  
-                                                                 lapply(sort(unique(data_LPL$event)), FUN = function(event) {
+                                                                 lapply(sort(unique(data_LEC$event)), FUN = function(event) {
                                                                    HTML(paste(
                                                                      tags$img(src="LEC.png", width = 40, height = 18),
                                                                      tags$b(event)
