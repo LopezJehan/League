@@ -19,6 +19,7 @@ flags_LPL <- c(
   "WE.png",
   "TT.png",
   "TES.png",
+  "UP.png",
   "V5.png"
 )
 
