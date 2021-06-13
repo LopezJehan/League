@@ -18,4 +18,6 @@ data_LEC <- all_data %>%
   filter(league == "LEC")  %>% 
   mutate(event = ifelse(playoffs == 1, paste0(split, " playoffs"), split))
 
-# data_LFL <- all_data %>% filter(league == "LFL")
+data_LFL <- all_data %>% 
+  filter(league == "LFL") %>% 
+  mutate(event = ifelse(playoffs == 1, paste0(split, " playoffs"), split))
