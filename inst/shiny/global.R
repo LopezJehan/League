@@ -1,7 +1,7 @@
 library(League)
 
 ##### Original data #####
-# all_data <- as.data.frame(read.csv("data/2021_data.csv"))
+# all_data <- as.data.frame(read.csv("inst/shiny/data/2021_data.csv"))
 # save(all_data, file = "inst/shiny/data/all_data.RData")
 load("data/all_data.RData")
 
