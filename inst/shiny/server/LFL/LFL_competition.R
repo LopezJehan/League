@@ -13,8 +13,8 @@ flags_LFL <- c(
 flags_LFL <- data.frame(team = sort(unique(data_LFL$team)),
                         img = flags_LFL,
                         color = c("#ff0000", "#e25a66", "#00c6ff", "#00379d",
-                                  "#00abff", "#a81e31", "#ffc000", "#ea3699",
-                                  "#00baff", "#f9e300"),
+                                  "#01255d", "#a81e31", "#fcc700", "#ea3699",
+                                  "#000000", "#f9e300"),
                         team_simplified = c("GO", "GW", "IZI", "KC", "LDLC",
                                             "MSFP", "SLY", "BDS", "MCES", "VITB"))
 
