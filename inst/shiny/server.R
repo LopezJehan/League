@@ -14,4 +14,5 @@ server <- function(input, output) {
   source(file.path("server", "LFL/LFL_competition.R"), local = TRUE)$value
   source(file.path("server", "LFL/LFL_team.R"), local = TRUE)$value
   source(file.path("server", "LFL/LFL_player.R"), local = TRUE)$value
+  source(file.path("server", "LFL/LFL_match.R"), local = TRUE)$value
 }
