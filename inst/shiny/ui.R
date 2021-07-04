@@ -7,7 +7,8 @@ sidebar <- dashboardSidebar(
     menuItem("LCK", tabName = "LCK", icon = icon("globe-asia"),
              menuSubItem("Competition", tabName = "LCK_competition", icon = icon("sitemap")),
              menuSubItem("Team", tabName = "LCK_team", icon = icon("users")),
-             menuSubItem("Player", tabName = "LCK_player", icon = icon("user"))),
+             menuSubItem("Player", tabName = "LCK_player", icon = icon("user")),
+             menuSubItem("Matches", tabName = "LCK_match", icon = icon("times"))),
     # LPL
     menuItem("LPL", tabName = "LPL", icon = icon("globe-asia")),
     # LEC
@@ -39,6 +40,9 @@ body <- dashboardBody(
     ),
     tabItem(tabName = "LCK_player",
             source(file.path("ui", "LCK/LCK_player.R"), local = TRUE)$value
+    ),
+    tabItem(tabName = "LCK_match",
+            source(file.path("ui", "LCK/LCK_match.R"), local = TRUE)$value
     ),
     # LPL
     tabItem(tabName = "LPL",
