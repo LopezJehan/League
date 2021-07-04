@@ -18,7 +18,9 @@ sidebar <- dashboardSidebar(
              menuSubItem("Matches", tabName = "LEC_match", icon = icon("times"))),
     # LFL
     menuItem("LFL", tabName = "LFL", icon = icon("cheese"),
-             menuSubItem("Competition", tabName = "LFL_competition", icon = icon("sitemap")))
+             menuSubItem("Competition", tabName = "LFL_competition", icon = icon("sitemap")),
+             menuSubItem("Team", tabName = "LFL_team", icon = icon("users")),
+             menuSubItem("Player", tabName = "LFL_player", icon = icon("user")))
   )
 )
 
@@ -57,6 +59,12 @@ body <- dashboardBody(
     # LFL
     tabItem(tabName = "LFL_competition",
             source(file.path("ui", "LFL/LFL_competition.R"), local = TRUE)$value
+    ),
+    tabItem(tabName = "LFL_team",
+            source(file.path("ui", "LFL/LFL_team.R"), local = TRUE)$value
+    ),
+    tabItem(tabName = "LFL_player",
+            source(file.path("ui", "LFL/LFL_player.R"), local = TRUE)$value
     )
   )
 )
