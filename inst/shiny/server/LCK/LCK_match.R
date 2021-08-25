@@ -2,7 +2,7 @@
 blue_teams_LCK <- data_LCK %>% 
   filter(position == "team",
          side == "Blue") %>% 
-  select(team, result)
+  select(team, result, event)
 
 red_teams_LCK <- data_LCK %>% 
   filter(position == "team",
@@ -29,14 +29,58 @@ matchs_LCK <- merge(matchs_LCK, flags_LCK_simplified,
   rename("Red_img" = img) %>% 
   arrange(row)
 
+output$LCK_Match_team_A <- renderUI(
+  shinyWidgets::pickerInput("LCK_Match_team_A", "Choose a team",
+                            choices = sort(unique(data_LCK$team)),
+                            selected = sort(unique(data_LCK$team)),
+                            multiple = TRUE,
+                            options = list(`actions-box` = TRUE,
+                                           `selected-text-format` = paste0("count > ", length(unique(data_LCK$team))-1),
+                                           `count-selected-text` = "All teams selected"),
+                            choicesOpt = list(content =  
+                                                lapply(sort(unique(data_LCK$team)), FUN = function(team) {
+                                                  HTML(paste(
+                                                    tags$img(src=flags_LCK[flags_LCK$team == team,]$img),
+                                                    tags$b(team)
+                                                  ))
+                                                })
+                            ))
+)
+
+output$LCK_Match_team_B <- renderUI(
+  shinyWidgets::pickerInput("LCK_Match_team_B", "Choose another team",
+                            choices = sort(unique(data_LCK$team)),
+                            selected = sort(unique(data_LCK$team)),
+                            multiple = TRUE,
+                            options = list(`actions-box` = TRUE,
+                                           `selected-text-format` = paste0("count > ", length(unique(data_LCK$team))-1),
+                                           `count-selected-text` = "All teams selected"),
+                            choicesOpt = list(content =  
+                                                lapply(sort(unique(data_LCK$team)), FUN = function(team) {
+                                                  HTML(paste(
+                                                    tags$img(src=flags_LCK[flags_LCK$team == team,]$img),
+                                                    tags$b(team)
+                                                  ))
+                                                })
+                            ))
+)
+
+# Filter matches
+matchs_filtered <- reactive({
+  matchs_LCK %>% 
+    filter(event %in% input$LCK_match_event,
+           Red %in% input$LCK_Match_team_A | Blue %in% input$LCK_Match_team_A) %>% 
+    filter(Red %in% input$LCK_Match_team_B | Blue %in% input$LCK_Match_team_B)
+})
+
 # Picker Input
 output$LCK_Match_picker <- renderUI(
   pickerInput("LCK_match_picker",
               "Choose a match",
-              choices = matchs_LCK$Result,
+              choices = matchs_filtered()$Result,
               choicesOpt = list(content =  
-                                  lapply(matchs_LCK$Result, FUN = function(result) {
-                                    line <- matchs_LCK[matchs_LCK$Result == result,]
+                                  lapply(matchs_filtered()$Result, FUN = function(result) {
+                                    line <- matchs_filtered()[matchs_filtered()$Result == result,]
                                     result_break <- unlist(strsplit(result, " - "))
                                     HTML(paste0(
                                       tags$b(result_break[1]),
