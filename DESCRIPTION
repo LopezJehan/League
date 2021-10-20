@@ -15,7 +15,8 @@ Depends:
   ggplot2,
   plotly,
   rAmCharts,
-  DT
+  DT,
+  data.table
 Imports:
   shiny,
   shinydashboard,
@@ -26,7 +27,8 @@ Imports:
   ggplot2,
   plotly,
   rAmCharts,
-  DT
+  DT, 
+  data.table
 License: What license is it under?
 LazyData: true
 RoxygenNote: 7.1.1
