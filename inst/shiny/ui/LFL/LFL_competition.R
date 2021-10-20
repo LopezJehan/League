@@ -7,14 +7,14 @@ tabItem(tabName = "LFL_competition",
             solidHeader = TRUE,
             column(width = 6,
                    shinyWidgets::pickerInput("LFL_event", "Choose competitions",
-                                             choices = sort(unique(data_LFL$event)),
-                                             selected = sort(unique(data_LFL$event)),
+                                             choices = unique(data_LFL$event),
+                                             selected = unique(data_LFL$event),
                                              multiple = TRUE,
                                              options = list(
                                                "actions-box" = TRUE
                                              ),
                                              choicesOpt = list(content =  
-                                                                 lapply(sort(unique(data_LFL$event)), FUN = function(event) {
+                                                                 lapply(unique(data_LFL$event), FUN = function(event) {
                                                                    HTML(paste(
                                                                      tags$img(src="LFL.png", width = 32, height = 28),
                                                                      tags$b(event)

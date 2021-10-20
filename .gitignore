@@ -39,3 +39,6 @@ vignettes/*.pdf
 .Renviron
 packrat/lib*/
 packrat/src/
+
+# Dataset
+*.csv

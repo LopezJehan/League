@@ -5,18 +5,18 @@ LFL_filt_event <- reactive(data_LFL %>% filter(event %in% input$LFL_event))
 
 # Flags LFL
 flags_LFL <- c(
-  "GO.png", "GW.png", "IZI.png", "KC.png", "LDLC.png",
-  "MSFP.png", "SLY.png", "BDS.png", "MCES.png", "VITB.png"
+  "ELY.png", "GO.png", "GW.png", "IZI.png", "KC.png", "LDLC.png",
+  "MSFP.png", "SLY.png", "BDS.png", "MCES.png", "OPL.png", "VITB.png"
 )
 
 # Define colors for each team
 flags_LFL <- data.frame(team = sort(unique(data_LFL$team)),
                         img = flags_LFL,
-                        color = c("#ff0000", "#e25a66", "#00c6ff", "#00379d",
-                                  "#01255d", "#a81e31", "#fcc700", "#ea3699",
-                                  "#000000", "#f9e300"),
-                        team_simplified = c("GO", "GW", "IZI", "KC", "LDLC",
-                                            "MSFP", "SLY", "BDS", "MCES", "VITB"))
+                        color = c("#000000", "#ff0000", "#e25a66", "#00c6ff",
+                                  "#00379d", "#01255d", "#a81e31", "#fcc700",
+                                  "#ea3699", "#000000", "#dd2f18", "#f9e300"),
+                        team_simplified = c("ELY", "GO", "GW", "IZI", "KC", "LDLC",
+                                            "MSFP", "SLY", "BDS", "MCES", "OPL", "VITB"))
 
 ##### Box with value boxes #####
 # Nb of games
